@@ -115,13 +115,7 @@
             <div class="common_wrap">
                 <h3><i class="fa fa-bar-chart"></i> 一周热门排行</h3>
                 <ul class="content_list">
-                    <li><span class="first">1</span><a href="#">神奇的水滴摄影，泡泡中的世界泡泡中的世界</a></li>
-                    <li><span class="second">2</span><a href="#">神奇的水滴摄影，泡泡中的世界</a></li>
-                    <li><span class="third">3</span><a href="#">神奇的水滴摄影，泡泡中的世界</a></li>
-                    <li><span>4</span><a href="#">神奇的水滴摄影，泡泡中的世界</a></li>
-                    <li><span>5</span><a href="#">神奇的水滴摄影，泡泡中的世界</a></li>
-                    <li><span>6</span><a href="#">神奇的水滴摄影，泡泡中的世界</a></li>
-                    <li><span>7</span><a href="#">神奇的水滴摄影，泡泡中的世界</a></li>
+                    <!-- 一周热门排行 -->
                 </ul>
             </div>
             <div class="common_wrap">
@@ -162,13 +156,7 @@
             <div class="common_wrap">
                 <h3><i class="fa fa-bullseye"></i> 焦点关注</h3>
                 <ul class="content_list guanzhu_list">
-                    <li><a href="#">神奇的水滴摄影，泡泡中的世界泡泡中的世界</a></li>
-                    <li><a href="#">神奇的水滴摄影，泡泡中的世界</a></li>
-                    <li><a href="#">神奇的水滴摄影，泡泡中的世界</a></li>
-                    <li><a href="#">神奇的水滴摄影，泡泡中的世界</a></li>
-                    <li><a href="#">神奇的水滴摄影，泡泡中的世界</a></li>
-                    <li><a href="#">神奇的水滴摄影，泡泡中的世界</a></li>
-                    <li><a href="#">神奇的水滴摄影，泡泡中的世界</a></li>
+                    <!-- 焦点关注 -->
                 </ul>
             </div>
         </div>
@@ -211,6 +199,63 @@
                 $('.breadcrumb').after(str)
             }
         }, 'json')
+    </script>
+
+    <!-- 一周热门排行 -->
+
+    <script id="remen" type="text/html">
+        {{each arr}}
+        <li>
+            {{if $index == 0}}
+            <span class="first">
+        {{else if $index == 1}}
+        <span class="second">
+        {{else if $index == 2}}
+        <span class="third">
+        {{else}}
+        <span>
+            {{/if}}
+        {{$index + 1}}</span>
+            <a href="./detail.html?id={{$value.id}}">{{$value.title}}</a>
+        </li>
+        {{/each}}
+    </script>
+    <script>
+        $.get('/getArticles', {
+            flag: 'click',
+            num: 7
+        }, function(res) {
+            // console.log(res)
+            if (res.code === 200) {
+                var str = template('remen', {
+                    arr: res.data
+                })
+                $('.content_list').eq(0).html(str)
+            }
+        }, 'json')
+    </script>
+
+    <!-- 焦点关注 -->
+    <script id="guanzhu" type="text/html">
+        {{each arr}}
+        <li>
+            <a href="./detail.html?id={{$value.id}}">{{$value.title}}</a>
+        </li>
+        {{/each}}
+    </script>
+    <script>
+        $.get('/getArticles', {
+                num: 7
+            },
+            function(res) {
+                // console.log(res)
+                if (res.code === 200) {
+                    var str = template('guanzhu', {
+                        arr: res.data
+                    });
+                    $('.guanzhu_list').html(str)
+                }
+            }, 'json')
     </script>
 </body>
 
